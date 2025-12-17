@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Melbourne Branch End of Year Celebration</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Navigate the Melbourne Branch End of Year Celebration on Lady Cutler cruise">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EoY Party">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon.svg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2d5a8a;
+            --accent: #d4af37;
+            --accent-light: #f4e4ba;
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --bg-primary: #F2F2F7;
+            --bg-secondary: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --card-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --accent: #fbbf24;
+            --accent-light: #fde68a;
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #F9FAFB;
+            --text-secondary: #9CA3AF;
+            --border: #374151;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(31, 41, 55, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-bg: #1f2937;
+        }
+
+        body.mode-en .lang-zh { display: none !important; }
+        body.mode-zh .lang-en { display: none !important; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: calc(80px + env(safe-area-inset-bottom));
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+            color: white;
+            padding: max(env(safe-area-inset-top), 16px) 16px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        [data-theme="dark"] .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Content */
+        .content {
+            padding: 16px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 4px solid var(--accent);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--warning);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        [data-theme="dark"] .alert-box {
+            background: linear-gradient(135deg, #78350f, #92400e);
+        }
+
+        .alert-box.danger {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-left-color: var(--danger);
+        }
+
+        [data-theme="dark"] .alert-box.danger {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+        }
+
+        /* Countdown */
+        .countdown-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .countdown-label {
+            text-align: center;
+            font-size: 13px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 12px;
+            padding: 12px 8px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .countdown-unit {
+            font-size: 10px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 2px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--primary));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -32px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 8px var(--shadow);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .timeline-time {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .timeline-time {
+            color: var(--accent);
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Highlight Cards */
+        .highlight-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .highlight-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .highlight-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .highlight-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Checklist */
+        .checklist-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:active {
+            transform: scale(0.98);
+        }
+
+        .checklist-item.checked {
+            background: rgba(52, 199, 89, 0.1);
+            border-color: var(--success);
+        }
+
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item.checked .checklist-checkbox {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .checklist-icon {
+            font-size: 20px;
+        }
+
+        .checklist-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .checklist-item.checked .checklist-text {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .faq-question {
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .faq-arrow {
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 16px 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Location Card */
+        .location-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .location-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .location-address {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .location-info {
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .location-info-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .location-info-text {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .map-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .map-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 4px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .nav-item.active {
+            color: var(--accent);
+        }
+
+        .nav-icon {
+            font-size: 22px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Weather Card */
+        .weather-card {
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [data-theme="dark"] .weather-card {
+            background: linear-gradient(135deg, #0369a1, #0284c7);
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .weather-icon {
+            font-size: 40px;
+        }
+
+        .weather-temp {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .weather-desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .weather-tip {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .weather-tip p {
+            opacity: 0.9;
+        }
+
+        /* Reset Button */
+        .reset-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 481px) {
+            .app-container {
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Install Banner */
+        .install-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--accent), #b8941f);
+            color: #1e3a5f;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            z-index: 2000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .install-banner.show {
+            transform: translateY(0);
+        }
+
+        .install-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .install-banner-icon {
+            font-size: 24px;
+        }
+
+        .install-banner-text {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .install-banner-text small {
+            display: block;
+            font-weight: 400;
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .install-banner-btn {
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .install-banner-close {
+            background: none;
+            border: none;
+            color: #1e3a5f;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0.7;
+        }
+
+        .install-banner.show + .app-container .header {
+            padding-top: calc(max(env(safe-area-inset-top), 16px) + 60px);
+        }
+
+        /* Offline indicator */
+        .offline-indicator {
+            position: fixed;
+            bottom: calc(80px + env(safe-area-inset-bottom) + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--danger);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1500;
+            display: none;
+        }
+
+        .offline-indicator.show {
+            display: block;
+        }
+    </style>
+</head>
+<body class="mode-en" data-theme="light">
+    <!-- Install Banner -->
+    <div class="install-banner" id="installBanner">
+        <div class="install-banner-content">
+            <span class="install-banner-icon">📲</span>
+            <div class="install-banner-text">
+                <span class="lang-zh">添加到主屏幕</span>
+                <span class="lang-en">Add to Home Screen</span>
+                <small>
+                    <span class="lang-zh">获得最佳体验，可离线使用</span>
+                    <span class="lang-en">Best experience, works offline</span>
+                </small>
+            </div>
+        </div>
+        <button class="install-banner-btn" id="installBtn">
+            <span class="lang-zh">安装</span>
+            <span class="lang-en">Install</span>
+        </button>
+        <button class="install-banner-close" id="installClose">×</button>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offlineIndicator">
+        <span class="lang-zh">📴 离线模式</span>
+        <span class="lang-en">📴 Offline Mode</span>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-controls">
+                <button class="control-btn" onclick="toggleTheme()">
+                    <span class="lang-zh">🌙 深色</span>
+                    <span class="lang-en">🌙 Dark</span>
+                </button>
+                <button class="control-btn" onclick="toggleLanguage()">
+                    <span class="lang-zh">🌐 EN</span>
+                    <span class="lang-en">🌐 中文</span>
+                </button>
+            </div>
+            <h1>
+                <span class="lang-zh">🚢 墨尔本分部年终庆典</span>
+                <span class="lang-en">🚢 Melbourne Branch EoY</span>
+            </h1>
+            <div class="subtitle">
+                <span class="lang-zh">📅 2025年12月18日 周四 • Casino主题</span>
+                <span class="lang-en">📅 Thu, 18 Dec 2025 • Casino Theme</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Tab 1: Home -->
+            <div class="tab-content active" data-tab="home">
+                <!-- Countdown -->
+                <div class="countdown-container">
+                    <div class="countdown-label">
+                        <span class="lang-zh">出发倒计时</span>
+                        <span class="lang-en">Departure Countdown</span>
+                    </div>
+                    <div class="countdown-grid">
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="days">00</div>
+                            <div class="countdown-unit">
+                                <span class="lang-zh">天</span>
+                                <span class="lang-en">Days</span>
+                            </div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="hours">00</div>
+                            <div class="countdown-unit">
+                                <span class="lang-zh">时</span>
+                                <span class="lang-en">Hrs</span>
+                            </div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="minutes">00</div>
+                            <div class="countdown-unit">
+                                <span class="lang-zh">分</span>
+                                <span class="lang-en">Min</span>
+                            </div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-number" id="seconds">00</div>
+                            <div class="countdown-unit">
+                                <span class="lang-zh">秒</span>
+                                <span class="lang-en">Sec</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert -->
+                <div class="alert-box danger">
+                    <div style="display: flex; align-items: flex-start; gap: 10px;">
+                        <span style="font-size: 20px;">⚠️</span>
+                        <div>
+                            <strong style="color: var(--danger);">
+                                <span class="lang-zh">重要提醒！</span>
+                                <span class="lang-en">Important Reminder!</span>
+                            </strong>
+                            <p style="font-size: 13px; margin-top: 4px; color: var(--text-secondary);">
+                                <span class="lang-zh">请于<strong>下午4:30到达登船</strong>，船将于<strong>下午5:00准时出发</strong>——迟到将错过游船！</span>
+                                <span class="lang-en">Please arrive at <strong>4:30 PM for boarding</strong>. Boat departs <strong>STRICTLY at 5:00 PM</strong> - if you're late, you'll miss the boat!</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather -->
+                <div class="weather-card">
+                    <div class="weather-main">
+                        <span class="weather-icon">☀️</span>
+                        <div>
+                            <div class="weather-temp">30°C</div>
+                            <div class="weather-desc">
+                                <span class="lang-zh">炎热 • 微风</span>
+                                <span class="lang-en">Hot • Low winds</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather-tip">
+                        <p>💡 <span class="lang-zh">穿着清凉</span><span class="lang-en">Dress light</span></p>
+                        <p><span class="lang-zh">带外套备晚间</span><span class="lang-en">Jacket for evening</span></p>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="section-title">
+                    <span class="lang-zh">⏱️ 活动时间表</span>
+                    <span class="lang-en">⏱️ Event Timeline</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #0ea5e9;">🎫</div>
+                        <div class="timeline-card">
+                            <div class="timeline-time">4:30 PM</div>
+                            <div class="timeline-desc">
+                                <span class="lang-zh">开始登船</span>
+                                <span class="lang-en">Boarding Opens</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot pulse" style="background: #ef4444;">⚓</div>
+                        <div class="timeline-card" style="border-color: var(--danger);">
+                            <div class="timeline-time" style="color: var(--danger);">5:00 PM ⚠️</div>
+                            <div class="timeline-desc" style="font-weight: 600;">
+                                <span class="lang-zh">准时出发 - 船不会等人！</span>
+                                <span class="lang-en">STRICT DEPARTURE - Will NOT wait!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #f97316;">🚢</div>
+                        <div class="timeline-card">
+                            <div class="timeline-time">7:00 PM</div>
+                            <div class="timeline-desc">
+                                <span class="lang-zh">提前下船（可选）</span>
+                                <span class="lang-en">Early Drop-off (Optional)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #22c55e;">🏠</div>
+                        <div class="timeline-card">
+                            <div class="timeline-time">8:30 PM</div>
+                            <div class="timeline-desc">
+                                <span class="lang-zh">返回Docklands码头</span>
+                                <span class="lang-en">Return to Docklands</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: #a855f7;">🎉</div>
+                        <div class="timeline-card">
+                            <div class="timeline-time">9:00 PM</div>
+                            <div class="timeline-desc">
+                                <span class="lang-zh">派对结束</span>
+                                <span class="lang-en">Party Ends</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Location -->
+            <div class="tab-content" data-tab="location">
+                <div class="section-title">
+                    <span class="lang-zh">📍 活动地点</span>
+                    <span class="lang-en">📍 Location</span>
+                </div>
+                <div class="location-card">
+                    <div class="location-title">Lady Cutler Melbourne Showboat</div>
+                    <div class="location-address">Pier VH08, 131 Harbour Esplanade, Docklands VIC 3008</div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        <span>🐄</span>
+                        <span>
+                            <span class="lang-zh">地标：靠近"树上的牛"雕塑，Marvel体育场对面</span>
+                            <span class="lang-en">Landmark: Near "Cow Up a Tree" sculpture, opposite Marvel Stadium</span>
+                        </span>
+                    </div>
+
+                    <div class="location-grid">
+                        <div class="location-info">
+                            <div class="location-info-icon">🅿️</div>
+                            <div class="location-info-text">
+                                <span class="lang-zh">Marvel体育场停车场（建议预订）</span>
+                                <span class="lang-en">Marvel Stadium Parking (Pre-book!)</span>
+                            </div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-info-icon">🚃</div>
+                            <div class="location-info-text">
+                                <span class="lang-zh">电车70/75 → D3站</span>
+                                <span class="lang-en">Tram 70/75 → Stop D3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=131+Harbour+Esplanade+Docklands+Melbourne" target="_blank" class="map-btn">
+                        <span class="lang-zh">🗺️ 在谷歌地图中打开</span>
+                        <span class="lang-en">🗺️ Open in Google Maps</span>
+                    </a>
+                </div>
+
+                <!-- Highlights -->
+                <div class="section-title" style="margin-top: 24px;">
+                    <span class="lang-zh">✨ 精彩亮点</span>
+                    <span class="lang-en">✨ Don't Miss!</span>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon" style="background: linear-gradient(135deg, #a855f7, #ec4899);">🍸</div>
+                    <div class="highlight-info">
+                        <h3><span class="lang-zh">无限畅饮</span><span class="lang-en">Open Bar</span></h3>
+                        <p><span class="lang-zh">啤酒、葡萄酒、烈酒和软饮全包！</span><span class="lang-en">Beer, Wine, Spirits & Soft drinks included!</span></p>
+                    </div>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon" style="background: linear-gradient(135deg, #22c55e, #14b8a6);">🎰</div>
+                    <div class="highlight-info">
+                        <h3><span class="lang-zh">慈善赌场</span><span class="lang-en">Charity Casino</span></h3>
+                        <p><span class="lang-zh">21点和轮盘 - $10换筹码（刷卡/现金）</span><span class="lang-en">Blackjack & Roulette - $10 for chips</span></p>
+                    </div>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon" style="background: linear-gradient(135deg, #f97316, #ef4444);">🌅</div>
+                    <div class="highlight-info">
+                        <h3><span class="lang-zh">St Kilda日落</span><span class="lang-en">St Kilda Sunset</span></h3>
+                        <p><span class="lang-zh">视天气情况 - 美景无限！</span><span class="lang-en">Weather permitting - stunning views!</span></p>
+                    </div>
+                </div>
+
+                <div class="highlight-card">
+                    <div class="highlight-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">🎸</div>
+                    <div class="highlight-info">
+                        <h3><span class="lang-zh">现场娱乐</span><span class="lang-en">Live Entertainment</span></h3>
+                        <p><span class="lang-zh">现场乐队和DJ整晚！</span><span class="lang-en">Live Band & DJ all night!</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Checklist -->
+            <div class="tab-content" data-tab="checklist">
+                <div class="section-title">
+                    <span class="lang-zh">✅ 物品清单</span>
+                    <span class="lang-en">✅ Packing Checklist</span>
+                </div>
+                <div id="checklist"></div>
+                <button class="reset-btn" onclick="resetChecklist()">
+                    <span class="lang-zh">🔄 重置清单</span>
+                    <span class="lang-en">🔄 Reset Checklist</span>
+                </button>
+            </div>
+
+            <!-- Tab 4: FAQ -->
+            <div class="tab-content" data-tab="faq">
+                <div class="section-title">
+                    <span class="lang-zh">❓ 常见问题</span>
+                    <span class="lang-en">❓ FAQ</span>
+                </div>
+                <div id="faq"></div>
+            </div>
+
+            <!-- Tab 5: Safety -->
+            <div class="tab-content" data-tab="safety">
+                <div class="section-title">
+                    <span class="lang-zh">🛡️ 安全须知</span>
+                    <span class="lang-en">🛡️ Safety Reminders</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>💼</span>
+                        <span class="lang-zh">工作活动</span>
+                        <span class="lang-en">Work Function</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh">这是公司活动，所有公司政策仍然有效，包括行为准则、酒精与药物政策及反骚扰政策。请保持尊重和适当的行为。</span>
+                        <span class="lang-en">This is a work function. Company policies remain in effect, including Code of Business Conduct, Drugs & Alcohol Policy, and Anti-Harassment policies. Please maintain respectful and appropriate behaviour.</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>🍺</span>
+                        <span class="lang-zh">负责任饮酒</span>
+                        <span class="lang-en">Responsible Drinking</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh">请适度饮酒。注意饮食，多喝非酒精饮料保持水分。我们希望每个人都能安全地享受活动。</span>
+                        <span class="lang-en">Please drink responsibly. Be mindful of your consumption, eat food, and stay hydrated with non-alcoholic options. We want everyone to have fun safely.</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>🚕</span>
+                        <span class="lang-zh">安全回家</span>
+                        <span class="lang-en">Safe Travel Home</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh"><strong>请提前规划回家路线。切勿酒后驾车！</strong>请使用公共交通、出租车、网约车或指定司机。您的安全至关重要。</span>
+                        <span class="lang-en"><strong>Plan your journey home in advance. Do NOT drink and drive!</strong> Use public transport, taxis, ride-sharing, or designated drivers. Your safety is crucial.</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>🚨</span>
+                        <span class="lang-zh">紧急情况</span>
+                        <span class="lang-en">Emergency Response</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh">如遇紧急情况（如火灾、医疗事故），请保持冷静，听从船员和公司负责人指示。到达后请留意绿色紧急出口标志。如需医疗帮助，请立即告知工作人员。</span>
+                        <span class="lang-en">In an emergency (fire, medical incident), remain calm and follow instructions from boat crew & company hosts. Familiarise yourself with emergency exits (green running man signs) when you arrive. For medical assistance, alert staff immediately.</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>👥</span>
+                        <span class="lang-zh">互相关照</span>
+                        <span class="lang-en">Look Out for Each Other</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh">请关注您的同事和朋友。如果发现有人身体不适或需要帮助，请提供支持或告知工作人员。您的主动关心非常重要！</span>
+                        <span class="lang-en">Look out for your colleagues and friends. If you notice someone seems unwell or needs assistance, offer support or discreetly alert staff. Your proactive care makes a big difference!</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span>📢</span>
+                        <span class="lang-zh">报告问题</span>
+                        <span class="lang-en">Speak Up & Report</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="lang-zh">如有任何安全问题或需要帮助，请随时联系公司负责人或场地工作人员。任何事故或伤害，无论多小，请通过Cisco Intelex报告。</span>
+                        <span class="lang-en">If you notice any safety concerns or need assistance, speak with company hosts or venue staff. For any incidents or injuries, no matter how minor, please report via Cisco Intelex.</span>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="margin-top: 16px;">
+                    <div style="display: flex; align-items: flex-start; gap: 10px;">
+                        <span style="font-size: 20px;">🎉</span>
+                        <div>
+                            <strong style="color: var(--warning);">
+                                <span class="lang-zh">祝您玩得开心！</span>
+                                <span class="lang-en">Have a Great Time!</span>
+                            </strong>
+                            <p style="font-size: 13px; margin-top: 4px; color: var(--text-secondary);">
+                                <span class="lang-zh">期待与大家一起庆祝精彩的一年！今天天气非常适合在水上活动！</span>
+                                <span class="lang-en">Looking forward to celebrating a fantastic year with you! It's turned out to be a cracking day to be out on the water!</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-container">
+            <button class="nav-item active" data-tab="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">
+                    <span class="lang-zh">首页</span>
+                    <span class="lang-en">Home</span>
+                </span>
+            </button>
+            <button class="nav-item" data-tab="location">
+                <span class="nav-icon">📍</span>
+                <span class="nav-label">
+                    <span class="lang-zh">地点</span>
+                    <span class="lang-en">Location</span>
+                </span>
+            </button>
+            <button class="nav-item" data-tab="checklist">
+                <span class="nav-icon">✅</span>
+                <span class="nav-label">
+                    <span class="lang-zh">清单</span>
+                    <span class="lang-en">Checklist</span>
+                </span>
+            </button>
+            <button class="nav-item" data-tab="faq">
+                <span class="nav-icon">❓</span>
+                <span class="nav-label">
+                    <span class="lang-zh">问答</span>
+                    <span class="lang-en">FAQ</span>
+                </span>
+            </button>
+            <button class="nav-item" data-tab="safety">
+                <span class="nav-icon">🛡️</span>
+                <span class="nav-label">
+                    <span class="lang-zh">安全</span>
+                    <span class="lang-en">Safety</span>
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // ===== Data =====
+        const checklistItems = [
+            { id: 'jacket', en: 'Windbreaker/Blazer (for evening temp drop)', zh: '防风衣/外套（夜间降温）', icon: '🧥' },
+            { id: 'sunglasses', en: 'Sunglasses (sun & wind protection)', zh: '太阳镜（遮阳挡风）', icon: '🕶️' },
+            { id: 'powerbank', en: 'Power Bank (phone battery)', zh: '充电宝（手机电量）', icon: '🔋' },
+            { id: 'payment', en: 'Payment Method (card/cash for $10 casino)', zh: '支付方式（刷卡/现金换$10筹码）', icon: '💳' },
+            { id: 'parking', en: 'Parking Ticket Screenshot (if driving)', zh: '停车票截图（如开车）', icon: '🎫' }
+        ];
+
+        const faqItems = [
+            {
+                q_en: 'Will the event be catered?',
+                q_zh: '活动提供餐饮吗？',
+                a_en: 'Yes, there will be plenty of food and drinks throughout the whole event. There is an <strong>open bar</strong> with beer, wine, spirits & soft drinks available. Any dietary requirements listed in your registration form will be met.',
+                a_zh: '是的，整个活动期间都有丰富的食物和饮料。设有<strong>无限畅饮吧台</strong>，提供啤酒、葡萄酒、烈酒和软饮。您在注册表中填写的特殊饮食需求将会得到满足。'
+            },
+            {
+                q_en: 'Where do we board the boat?',
+                q_zh: '在哪里登船？',
+                a_en: 'Address is <strong>Pier VH08, 131 Harbour Esplanade, Docklands</strong> - directly across from Marvel Stadium. Take Tram Route 70 or 75 from Flinders St (near office) and get off at Stadium Precinct, Stop D3.',
+                a_zh: '地址是<strong>Pier VH08, 131 Harbour Esplanade, Docklands</strong>——就在Marvel体育场对面。从Flinders St（办公室附近）乘坐70或75路电车，在Stadium Precinct D3站下车即到。'
+            },
+            {
+                q_en: 'Where is the boat going?',
+                q_zh: '游船去哪里？',
+                a_en: 'The boat will cruise down the Yarra, under the Bolte and Westgate bridges, then around through Williamstown. If the weather is nice and calm, we will proceed to St Kilda for a sunset view of the city.',
+                a_zh: '游船将沿Yarra河巡游，穿过Bolte大桥和Westgate大桥，然后环绕Williamstown。如果天气晴好平静，我们将前往St Kilda欣赏城市日落美景。'
+            },
+            {
+                q_en: 'What if the weather is bad?',
+                q_zh: '如果天气不好怎么办？',
+                a_en: 'It looks like we\'ve been blessed with a 30°C day and low winds so this shouldn\'t be an issue. However, if the water is not calm we will not be leaving the river area.',
+                a_zh: '看起来我们很幸运，当天预报30°C且风力较小，应该不会有问题。但如果水面不平静，我们将不会离开河流区域。'
+            },
+            {
+                q_en: 'What are the timings?',
+                q_zh: '活动时间安排是什么？',
+                a_en: 'Boarding from <strong>4:30 PM</strong>, boat departs at <strong>5:00 PM sharp</strong> (if you\'re late the boat won\'t wait!). We return to Docklands at <strong>7:00 PM for early drop-off</strong>, then head back out until <strong>8:30 PM</strong>. Party ends at <strong>9:00 PM</strong>.',
+                a_zh: '<strong>4:30 PM</strong>开始登船，<strong>5:00 PM准时出发</strong>（迟到不等人！）。<strong>7:00 PM返回Docklands</strong>供需要提前离开的人下船，然后继续航行至<strong>8:30 PM</strong>返回。派对于<strong>9:00 PM</strong>结束。'
+            },
+            {
+                q_en: 'What entertainment is there?',
+                q_zh: '有什么娱乐活动？',
+                a_en: 'We have a play casino setup with blackjack, roulette and poker. Chips can be purchased for $10 which will be directly donated to charity. We also have both a <strong>DJ and a live band</strong> to keep you entertained!',
+                a_zh: '我们设有娱乐赌场，提供21点、轮盘和扑克。筹码$10一份，将全部捐给慈善机构。此外还有<strong>DJ和现场乐队</strong>为您助兴！'
+            },
+            {
+                q_en: 'What is the boat like?',
+                q_zh: '游船是什么样的？',
+                a_en: 'The boat is called the <strong>Lady Cutler</strong>. It holds over 300 people across multiple decks with both indoor and outdoor areas to explore.',
+                a_zh: '游船名为<strong>Lady Cutler</strong>，可容纳300多人，拥有多层甲板，设有室内和室外区域供您探索。'
+            },
+            {
+                q_en: 'Is there a dress code?',
+                q_zh: '有着装要求吗？',
+                a_en: 'Not officially. It\'s a "Casino Royale" theme if you want to dress up, but it\'s optional. <strong>Important:</strong> The weather will be hot (30°C), so dress accordingly!',
+                a_zh: '没有硬性要求。如果您想打扮一下，主题是"Casino Royale"，但这是可选的。<strong>重要：</strong>当天天气炎热（30°C），请穿着清凉！'
+            }
+        ];
+
+        // ===== State =====
+        let currentLang = localStorage.getItem('partyLang') || 'en';
+        let currentTheme = localStorage.getItem('partyTheme') || 'light';
+
+        // ===== Theme =====
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('partyTheme', currentTheme);
+            updateThemeButton();
+        }
+
+        function updateThemeButton() {
+            const btns = document.querySelectorAll('.control-btn');
+            const themeBtn = btns[0];
+            if (currentTheme === 'dark') {
+                themeBtn.innerHTML = '<span class="lang-zh">☀️ 浅色</span><span class="lang-en">☀️ Light</span>';
+            } else {
+                themeBtn.innerHTML = '<span class="lang-zh">🌙 深色</span><span class="lang-en">🌙 Dark</span>';
+            }
+        }
+
+        // ===== Language =====
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.body.className = `mode-${currentLang}`;
+            localStorage.setItem('partyLang', currentLang);
+            loadChecklist();
+            loadFAQ();
+        }
+
+        // ===== Tabs =====
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.add('active');
+            document.querySelector(`.nav-item[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // ===== Countdown =====
+        function updateCountdown() {
+            const targetDate = new Date('2025-12-18T17:00:00+11:00');
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // ===== Checklist =====
+        function loadChecklist() {
+            const saved = JSON.parse(localStorage.getItem('partyChecklist') || '{}');
+            const container = document.getElementById('checklist');
+            container.innerHTML = '';
+
+            checklistItems.forEach(item => {
+                const checked = saved[item.id] || false;
+                const div = document.createElement('div');
+                div.className = `checklist-item ${checked ? 'checked' : ''}`;
+                div.innerHTML = `
+                    <div class="checklist-checkbox">${checked ? '✓' : ''}</div>
+                    <span class="checklist-icon">${item.icon}</span>
+                    <span class="checklist-text">${currentLang === 'zh' ? item.zh : item.en}</span>
+                `;
+                div.onclick = () => toggleChecklistItem(item.id);
+                container.appendChild(div);
+            });
+        }
+
+        function toggleChecklistItem(id) {
+            const saved = JSON.parse(localStorage.getItem('partyChecklist') || '{}');
+            saved[id] = !saved[id];
+            localStorage.setItem('partyChecklist', JSON.stringify(saved));
+            loadChecklist();
+        }
+
+        function resetChecklist() {
+            localStorage.removeItem('partyChecklist');
+            loadChecklist();
+        }
+
+        // ===== FAQ =====
+        function loadFAQ() {
+            const container = document.getElementById('faq');
+            container.innerHTML = '';
+
+            faqItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'faq-item';
+                div.innerHTML = `
+                    <div class="faq-question">
+                        <span>${currentLang === 'zh' ? item.q_zh : item.q_en}</span>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">${currentLang === 'zh' ? item.a_zh : item.a_en}</div>
+                    </div>
+                `;
+                div.querySelector('.faq-question').onclick = () => {
+                    div.classList.toggle('open');
+                };
+                container.appendChild(div);
+            });
+        }
+
+        // ===== Init =====
+        function init() {
+            // Apply saved theme
+            document.body.setAttribute('data-theme', currentTheme);
+            document.body.className = `mode-${currentLang}`;
+            updateThemeButton();
+
+            // Setup tab navigation
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.onclick = () => switchTab(btn.dataset.tab);
+            });
+
+            // Start countdown
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Load dynamic content
+            loadChecklist();
+            loadFAQ();
+
+            // Initialize PWA
+            initPWA();
+        }
+
+        // ===== PWA Install & Offline =====
+        let deferredPrompt = null;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const installClose = document.getElementById('installClose');
+        const offlineIndicator = document.getElementById('offlineIndicator');
+
+        function initPWA() {
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            }
+
+            // Check if already installed or dismissed
+            const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
+                               window.navigator.standalone === true;
+            const isDismissed = localStorage.getItem('installBannerDismissed');
+
+            // Show install banner for mobile users who haven't installed
+            if (!isInstalled && !isDismissed && isMobileDevice()) {
+                setTimeout(() => {
+                    installBanner.classList.add('show');
+                }, 2000);
+            }
+
+            // Listen for beforeinstallprompt (Android Chrome)
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (!localStorage.getItem('installBannerDismissed')) {
+                    installBanner.classList.add('show');
+                }
+            });
+
+            // Install button click
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    // Android - use native prompt
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBanner.classList.remove('show');
+                    }
+                    deferredPrompt = null;
+                } else if (isIOS()) {
+                    // iOS - show instructions
+                    alert(currentLang === 'zh' 
+                        ? '请点击浏览器底部的分享按钮 ⬆️，然后选择"添加到主屏幕"'
+                        : 'Tap the Share button ⬆️ at the bottom of Safari, then select "Add to Home Screen"');
+                } else {
+                    // Desktop or other - show generic instructions
+                    alert(currentLang === 'zh'
+                        ? '请使用浏览器菜单中的"安装应用"或"添加到主屏幕"选项'
+                        : 'Use your browser menu to "Install App" or "Add to Home Screen"');
+                }
+            });
+
+            // Close button
+            installClose.addEventListener('click', () => {
+                installBanner.classList.remove('show');
+                localStorage.setItem('installBannerDismissed', 'true');
+            });
+
+            // Listen for successful install
+            window.addEventListener('appinstalled', () => {
+                installBanner.classList.remove('show');
+                deferredPrompt = null;
+            });
+
+            // Offline/Online status
+            function updateOnlineStatus() {
+                if (!navigator.onLine) {
+                    offlineIndicator.classList.add('show');
+                } else {
+                    offlineIndicator.classList.remove('show');
+                }
+            }
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+        }
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        init();
+    </script>
+</body>
+</html>

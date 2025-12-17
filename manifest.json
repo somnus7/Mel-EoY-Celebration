@@ -1,0 +1,21 @@
+{
+  "name": "Melbourne Branch End of Year Celebration",
+  "short_name": "EoY Party",
+  "description": "Navigate the Melbourne Branch End of Year Celebration on Lady Cutler cruise",
+  "start_url": "./EoY Party.html",
+  "display": "standalone",
+  "background_color": "#1e3a5f",
+  "theme_color": "#1e3a5f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["lifestyle", "entertainment"],
+  "lang": "en",
+  "dir": "ltr"
+}
